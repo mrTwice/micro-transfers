@@ -1,9 +1,9 @@
 server:
-  port: 8181
+  port: 8080
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5450/mt_core_transfers?minimumIdle=2
+    url: jdbc:postgresql://core-transfers-postgres:5432/mt_core_transfers?minimumIdle=2
     username: mt_core_transfers_admin
     password: mt_core_transfers_admin
     hikari:
