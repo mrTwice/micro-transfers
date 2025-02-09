@@ -9,7 +9,7 @@ import ru.otus.java.pro.mt.core.transfers.configs.properties.KafkaTopicsProperti
 
 @Component
 @AllArgsConstructor
-public class StatusProducer {
+public class StatusProducer implements MessageService<StatusInfoDto>{
     private final KafkaTemplate<String, Object> kafkaTemplate;
     private final KafkaTopicsProperties topicsProperties;
 

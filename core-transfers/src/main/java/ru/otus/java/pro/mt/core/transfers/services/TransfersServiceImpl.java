@@ -7,7 +7,7 @@ import ru.otus.java.pro.mt.core.transfers.configs.properties.TransfersProperties
 import ru.otus.java.pro.mt.core.transfers.dtos.ExecuteTransferDtoRq;
 import ru.otus.java.pro.mt.core.transfers.entities.Transfer;
 import ru.otus.java.pro.mt.core.transfers.exceptions_handling.BusinessLogicException;
-import ru.otus.java.pro.mt.core.transfers.kafka.StatusProducer;
+import ru.otus.java.pro.mt.core.transfers.kafka.MessageService;
 import ru.otus.java.pro.mt.core.transfers.repositories.TransfersRepository;
 import ru.otus.java.pro.mt.core.transfers.validators.TransferRequestValidator;
 
@@ -23,7 +23,7 @@ public class TransfersServiceImpl implements TransfersService {
     private final TransferRequestValidator transferRequestValidator;
     private final TransfersProperties transfersProperties;
     private final LimitsServiceImpl limitsService;
-    private final StatusProducer statusProducer;
+    private final MessageService<StatusInfoDto> statusProducer;
 
     @Override
     public Optional<Transfer> getTransferById(String id, String clientId) {
