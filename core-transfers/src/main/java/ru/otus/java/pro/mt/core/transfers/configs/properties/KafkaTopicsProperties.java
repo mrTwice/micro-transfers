@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @NoArgsConstructor
 @Data
-@ConfigurationProperties("topics")
+@ConfigurationProperties(prefix = "topics")
 public class KafkaTopicsProperties {
     private String statusInfo;
 }

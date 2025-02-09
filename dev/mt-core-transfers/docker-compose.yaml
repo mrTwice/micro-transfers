@@ -18,4 +18,4 @@ services:
       timeout: 1s
       retries: 3
     volumes:
-      - ./postgres/init.sql:/docker-entrypoint-initdb.d/01.sql
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
