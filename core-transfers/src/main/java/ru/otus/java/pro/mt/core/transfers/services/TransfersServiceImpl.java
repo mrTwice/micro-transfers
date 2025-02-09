@@ -2,9 +2,9 @@ package ru.otus.java.pro.mt.core.transfers.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.otus.java.pro.mt.avro.StatusInfoDto;
 import ru.otus.java.pro.mt.core.transfers.configs.properties.TransfersProperties;
 import ru.otus.java.pro.mt.core.transfers.dtos.ExecuteTransferDtoRq;
-import ru.otus.java.pro.mt.core.transfers.dtos.StatusInfoDto;
 import ru.otus.java.pro.mt.core.transfers.entities.Transfer;
 import ru.otus.java.pro.mt.core.transfers.exceptions_handling.BusinessLogicException;
 import ru.otus.java.pro.mt.core.transfers.kafka.StatusProducer;

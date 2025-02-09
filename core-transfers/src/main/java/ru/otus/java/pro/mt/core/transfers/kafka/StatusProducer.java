@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
+import ru.otus.java.pro.mt.avro.StatusInfoDto;
 import ru.otus.java.pro.mt.core.transfers.configs.properties.KafkaTopicsProperties;
-import ru.otus.java.pro.mt.core.transfers.dtos.StatusInfoDto;
 
 @Component
 @AllArgsConstructor

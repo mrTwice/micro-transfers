@@ -14,7 +14,7 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.stereotype.Component;
-import ru.otus.java.pro.mt.notifications.dtos.StatusInfoDto;
+import ru.otus.java.pro.mt.avro.StatusInfoDto;
 
 import java.util.Objects;
 
@@ -37,7 +37,7 @@ public class StatusConsumer {
         Acknowledgment ack = headers.get(KafkaHeaders.ACKNOWLEDGMENT, Acknowledgment.class);
         logger.info(String.format("#### -> Consumed a message -> %s", status.value()));
         logger.info("#### -> Key: {}", status.key());
-        logger.info("#### -> FirstName: {}", status.value());
+        logger.info("#### -> Status: {}", status.value());
         if (Objects.nonNull(ack)) ack.acknowledge();
     }
 
