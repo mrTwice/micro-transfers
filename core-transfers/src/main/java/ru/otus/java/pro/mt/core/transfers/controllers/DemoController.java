@@ -13,5 +13,6 @@ public class DemoController {
     @GetMapping("/demo")
     public void hello() {
         customMetricsService.incrementCustomMetric();
+        customMetricsService.changeCustomGauge();
     }
 }
