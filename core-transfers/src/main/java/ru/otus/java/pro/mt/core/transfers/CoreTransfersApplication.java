@@ -5,7 +5,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class CoreTransfersApplication {
-	public static void main(String[] args) {
-		SpringApplication.run(CoreTransfersApplication.class, args);
-	}
+    /*
+    Домашнее задание:
+    - Достройте dev/environment таким образом, чтобы через docker-compose запускались все сервисы,
+    и все необходимое окружение (БД, ELK, Prometheus/Grafana)
+    - Добавьте в мс переводов 3 метрики: Получено запросов на выолнение перевода, Кол-во успешных переводов,
+    количество неуспешных переводов
+    - Добавьте пагинацию к запросу списка переводов, чтобы при запросе можно указать размер
+    (по-умолчанию 20, максимально 1000) и номер страницы
+    */
+    public static void main(String[] args) {
+        SpringApplication.run(CoreTransfersApplication.class, args);
+    }
 }
