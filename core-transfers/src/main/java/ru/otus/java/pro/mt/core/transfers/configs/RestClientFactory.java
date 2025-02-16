@@ -17,8 +17,8 @@ public class RestClientFactory {
 
     public HttpComponentsClientHttpRequestFactory httpRequestFactory(IntegrationProperties.ServiceConfig serviceConfig) {
         HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
-//        factory.setReadTimeout(serviceConfig.getReadTimeout());
-//        factory.setConnectTimeout(serviceConfig.getConnectTimeout());
+        factory.setReadTimeout(serviceConfig.getReadTimeout());
+        factory.setConnectTimeout(serviceConfig.getConnectTimeout());
         return factory;
     }
 }
