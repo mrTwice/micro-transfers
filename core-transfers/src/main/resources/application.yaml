@@ -32,10 +32,11 @@ transfers:
     - "234"
     - "456"
 integrations:
-  limits:
-    url: http://localhost:9080/api/v1/limits
-    read-timeout: 30s
-    write-timeout: 2s
+  services:
+    limitsClient:
+      url: http://localhost:9591/api/v1/limits/
+      read-timeout: 30s
+      connect-timeout: 40s
 logging:
   level:
     org.zalando.logbook.Logbook: TRACE

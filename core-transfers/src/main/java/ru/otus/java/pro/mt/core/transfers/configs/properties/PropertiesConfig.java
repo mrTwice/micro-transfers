@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableConfigurationProperties({
-        LimitsIntegrationProperties.class,
         TransfersProperties.class,
         KafkaTopicsProperties.class
 })
