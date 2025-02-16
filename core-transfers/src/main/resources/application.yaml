@@ -36,3 +36,6 @@ integrations:
     url: http://localhost:9080/api/v1/limits
     read-timeout: 30s
     write-timeout: 2s
+logging:
+  level:
+    org.zalando.logbook.Logbook: TRACE
