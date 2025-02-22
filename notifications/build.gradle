@@ -1,6 +1,5 @@
 import com.github.davidmc24.gradle.plugin.avro.GenerateAvroJavaTask
 
-
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.4.2'
