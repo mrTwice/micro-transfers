@@ -33,7 +33,7 @@ transfers:
     - "456"
 integrations:
   services:
-    limitsClient:
+    limits:
       url: http://localhost:9591/api/v1/limits/
       read-timeout: 30s
       connect-timeout: 40s
