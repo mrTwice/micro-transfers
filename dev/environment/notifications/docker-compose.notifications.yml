@@ -1,0 +1,23 @@
+services:
+  notifications:
+    build:
+      context: ../../../
+      dockerfile: notifications/Dockerfile
+    image: mt-notifications:latest
+    container_name: mt-notifications
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "9592:9592"
+    networks:
+      - db-net
+      - elk-net
+      - monitoring-net
+      - kafka-net
+    depends_on:
+      - mt-core-transfers
+      - logstash
+      - broker-1
+      - broker-2
+      - broker-3
+      - schema-registry

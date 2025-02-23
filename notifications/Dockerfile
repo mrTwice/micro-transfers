@@ -3,33 +3,18 @@
 #ADD ./build/libs/*.jar mt-core-transfers.jar
 #ENTRYPOINT ["java", "-jar", "/mt-core-transfers.jar"]
 
-# Этап сборки
 FROM gradle:jdk17 AS build
 WORKDIR /app
-
-# Копируем исходный код и файлы сборки
-COPY notifications/src ./src
-COPY notifications/build.gradle .
-COPY settings.gradle .
-COPY gradlew .
-COPY gradle ./gradle
-
-# Передаем профиль через аргумент (например, dev)
-ARG profile=dev
+ARG profile=docker
 ENV PROFILE=${profile}
+COPY . .
+RUN chmod +x gradlew
+RUN ./gradlew :notifications:clean  :notifications:bootJar -Pprofile=${PROFILE} --no-daemon
 
-# Собираем проект с указанием профиля
-RUN ./gradlew :notifications:build -Pprofile=${PROFILE} --no-daemon
-
-# Этап выполнения
 FROM eclipse-temurin:17-jre
 WORKDIR /app
-
-# Копируем собранный JAR из этапа сборки
+ARG profile=docker
+ENV PROFILE=${profile}
 COPY --from=build /app/notifications/build/libs/notifications-*.jar ./notifications.jar
-
-# Копируем конфигурационный файл для выбранного профиля
 COPY --from=build /app/notifications/src/main/resources/application-${PROFILE}.yml ./application.yml
-
-# Указываем точку входа
 ENTRYPOINT ["java", "-jar", "notifications.jar", "--spring.config.location=classpath:/application.yml"]

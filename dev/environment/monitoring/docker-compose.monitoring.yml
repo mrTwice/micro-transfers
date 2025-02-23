@@ -8,6 +8,8 @@ services:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     networks:
       - monitoring-net
+    depends_on:
+      - mt-core-transfers
 
   grafana:
     image: grafana/grafana-enterprise:latest
@@ -16,3 +18,5 @@ services:
       - "3000:3000"
     networks:
       - monitoring-net
+    depends_on:
+      - prometheus

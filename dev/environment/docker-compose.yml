@@ -1,5 +1,7 @@
 include:
-  - core-transfers/docker-compose.core-transfers.yaml # DB for core-transfers
+  - core-transfers/docker-compose.core-transfers.yaml # DB and core-transfers
+  - limits/docker-compose.limits.yml # limits
+  - notifications/docker-compose.notifications.yml # notifications
   - elk/docker-compose.elk.yml # Elasticsearch Kibana Logstash
   - kafka/kafka-core/docker-compose.kafka-core.yml # zookeeper broker-1 broker-2 broker-3
   - kafka/kafka-tools/docker-compose.kafka-tools.yml # schema-registry connect rest-proxy
@@ -8,10 +10,14 @@ include:
 
 networks:
   kafka-net:
+    name: kafka-net
     driver: bridge
   elk-net:
+    name: elk-net
     driver: bridge
   monitoring-net:
+    name: monitoring-net
     driver: bridge
   db-net:
+    name: db-net
     driver: bridge

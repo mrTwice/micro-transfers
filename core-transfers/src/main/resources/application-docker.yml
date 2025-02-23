@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 9590
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
@@ -12,6 +12,14 @@ spring:
   jpa:
     show-sql: true
     open-in-view: false
+  kafka:
+    producer:
+      properties:
+        schema.registry.url: http://schema-registry:8081
+        allow.auto.create.topics: true
+      bootstrap-servers: broker-1:29091, broker-2:29092, broker-3:29093
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
 management:
   endpoint:
     health:
@@ -21,7 +29,8 @@ management:
       exposure:
         include: '*'
 integrations:
-  limits:
-    url: http://localhost:8182/api/v1/limits
-    read-timeout: 30s
-    write-timeout: 2s
+  services:
+    limits:
+      url: http://limits:9591/api/v1/limits/
+      read-timeout: 30s
+      connect-timeout: 40s
