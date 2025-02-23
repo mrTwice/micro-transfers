@@ -1,21 +1,8 @@
-version: '3.8'
-
 services:
-  prometheus:
-    image: prom/prometheus:latest
-    container_name: prometheus
-    ports:
-      - "9090:9090"
-    volumes:
-      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-
-  grafana:
-    image: grafana/grafana-enterprise:latest
-    container_name: grafana
-    ports:
-      - "3000:3000"
-
   core-transfers-postgres:
+    build:
+      context: .
+      dockerfile: Dockerfile
     image: postgres_custom_ru:latest
     container_name: core-transfers-postgres
     ports:
@@ -29,12 +16,19 @@ services:
       timeout: 1s
       retries: 3
     volumes:
-      - ./postgres/init.sql:/docker-entrypoint-initdb.d/01.sql
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - db-net
 
   mt-core-transfers:
+    build:
+      context: ../../../
+      dockerfile: core-transfers/Dockerfile
     image: mt-core-transfers:latest
     container_name: mt-core-transfers
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_PROFILES_ACTIVE=dev
     ports:
-      - "8181:8080"
+      - "9590:9590"
+    networks:
+      - db-net

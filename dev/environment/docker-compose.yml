@@ -1,0 +1,17 @@
+include:
+  - core-transfers/docker-compose.core-transfers.yaml # DB for core-transfers
+  - elk/docker-compose.elk.yml # Elasticsearch Kibana Logstash
+  - kafka/kafka-core/docker-compose.kafka-core.yml # zookeeper broker-1 broker-2 broker-3
+  - kafka/kafka-tools/docker-compose.kafka-tools.yml # schema-registry connect rest-proxy
+  - kafka/kafka-ui/docker-compose.kafka-ui.yml # kafka-ui control-center ksqldb-server ksqldb-cli ksql-datagen
+  - monitoring/docker-compose.monitoring.yml # Prometheus Grafana
+
+networks:
+  kafka-net:
+    driver: bridge
+  elk-net:
+    driver: bridge
+  monitoring-net:
+    driver: bridge
+  db-net:
+    driver: bridge
