@@ -34,3 +34,6 @@ integrations:
       url: http://limits:9591/api/v1/limits/
       read-timeout: 30s
       connect-timeout: 40s
+logstash:
+  destination:
+    host: logstash:5000

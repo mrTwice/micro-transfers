@@ -41,4 +41,5 @@ logging:
   level:
     org.zalando.logbook.Logbook: TRACE
 logstash:
-  destination: logstash:5000
+  destination:
+    host: localhost:5000

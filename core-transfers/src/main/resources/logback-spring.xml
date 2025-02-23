@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
-    <springProperty scope="context" name="logstashDestination" source="logstash.destination" defaultValue="localhost:5000"/>
+    <springProperty scope="context" name="logHost" source="logstash.destination.host"/>
     <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>${logstashDestination}</destination>
+        <destination>${logHost}</destination>
         <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
             <providers>
                 <mdc />
