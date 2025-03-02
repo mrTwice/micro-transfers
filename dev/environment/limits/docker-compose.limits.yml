@@ -3,6 +3,8 @@ services:
     build:
       context: ../../../
       dockerfile: limits/Dockerfile
+      args:
+        - NO_CACHE=true
     image: mt-limits:latest
     container_name: mt-limits
     environment:
@@ -15,9 +17,5 @@ services:
       - monitoring-net
       - kafka-net
     depends_on:
-      - mt-core-transfers
-      - logstash
-      - broker-1
-      - broker-2
-      - broker-3
-      - schema-registry
+      core-transfers-postgres:
+        condition: service_healthy

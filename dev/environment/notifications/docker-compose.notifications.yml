@@ -3,6 +3,8 @@ services:
     build:
       context: ../../../
       dockerfile: notifications/Dockerfile
+      args:
+        - NO_CACHE=true
     image: mt-notifications:latest
     container_name: mt-notifications
     environment:
@@ -15,9 +17,5 @@ services:
       - monitoring-net
       - kafka-net
     depends_on:
-      - mt-core-transfers
-      - logstash
-      - broker-1
-      - broker-2
-      - broker-3
-      - schema-registry
+      core-transfers-postgres:
+        condition: service_healthy

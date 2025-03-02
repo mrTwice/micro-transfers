@@ -4,10 +4,18 @@ services:
     hostname: schema-registry
     container_name: schema-registry
     restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8081/subjects" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
     depends_on:
-      - broker-1
-      - broker-2
-      - broker-3
+      broker-1:
+        condition: service_healthy
+      broker-2:
+        condition: service_healthy
+      broker-3:
+        condition: service_healthy
     ports:
       - "8081:8081"
     environment:
@@ -25,11 +33,14 @@ services:
     hostname: connect
     container_name: kafka-connect
     restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8083/connectors" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
     depends_on:
-      - broker-1
-      - broker-2
-      - broker-3
-      - schema-registry
+      schema-registry:
+        condition: service_healthy
     ports:
       - "8083:8083"
     environment:
@@ -61,16 +72,19 @@ services:
 
   rest-proxy:
     image: confluentinc/cp-kafka-rest:7.4.0
-    depends_on:
-      - broker-1
-      - broker-2
-      - broker-3
-      - schema-registry
     ports:
       - 8082:8082
     hostname: rest-proxy
     container_name: rest-proxy
     restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8082/brokers" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    depends_on:
+      schema-registry:
+        condition: service_healthy
     environment:
       KAFKA_REST_HOST_NAME: rest-proxy
       KAFKA_REST_BOOTSTRAP_SERVERS: 'broker-1:29091,broker-2:29092,broker-3:29093'

@@ -4,6 +4,11 @@ services:
     hostname: zookeeper
     container_name: zookeeper
     restart: unless-stopped
+    healthcheck:
+      test: nc -z localhost 2181 || exit -1
+      interval: 10s
+      timeout: 5s
+      retries: 10
     ports:
       - "2181:2181"
     environment:
@@ -20,7 +25,13 @@ services:
     container_name: broker-1
     restart: unless-stopped
     depends_on:
-      - zookeeper
+      zookeeper:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "kafka-broker-api-versions", "--bootstrap-server", "broker-1:29091" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
     ports:
       - "9091:9091"
       - "9101:9101"
@@ -52,8 +63,13 @@ services:
     container_name: broker-2
     restart: unless-stopped
     depends_on:
-      - zookeeper
-      - broker-1
+      zookeeper:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "kafka-broker-api-versions", "--bootstrap-server", "broker-2:29092" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
     ports:
       - "9092:9092"
       - "9102:9102"
@@ -85,9 +101,13 @@ services:
     container_name: broker-3
     restart: unless-stopped
     depends_on:
-      - zookeeper
-      - broker-1
-      - broker-2
+      zookeeper:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "kafka-broker-api-versions", "--bootstrap-server", "broker-3:29093" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
     ports:
       - "9093:9093"
       - "9103:9103"
