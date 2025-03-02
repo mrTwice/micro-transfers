@@ -6,5 +6,5 @@ import java.util.List;
 
 @Schema(description = "Страница с переводами")
 public record TransfersPageDto(
-        @Schema(description = "Список переводов") List<TransferDto> entries
+        @Schema(description = "Список переводов") List<TransferDto> entries, int totalPages, long totalElements
 ) {}
