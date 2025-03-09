@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import ru.otus.java.pro.mt.core.transfers.dtos.ExecuteTransferDtoRq;
 import ru.otus.java.pro.mt.core.transfers.dtos.TransferDto;
@@ -40,13 +41,23 @@ public class TransfersController {
     )
     public TransfersPageDto getAllTransfers(
             @Parameter(description = "Идентификатор клиента", required = true, schema = @Schema(type = "string", maxLength = 10, example = "1234567890"))
-            @RequestHeader(name = "client-id") String clientId
+            @RequestHeader(name = "client-id") String clientId,
+
+            @Parameter(description = "Номер страницы (начиная с 0)", required = false, schema = @Schema(type = "integer", defaultValue = "0"))
+            @RequestParam(defaultValue = "0") int page,
+
+            @Parameter(description = "Размер страницы (количество элементов на странице)", required = false, schema = @Schema(type = "integer", defaultValue = "20", maximum = "1000"))
+            @RequestParam(defaultValue = "20") int size
     ) {
+        size = Math.min(size, 1000);
+        Page<Transfer> transferPage = transfersService.getAllTransfers(clientId, page, size);
         return new TransfersPageDto(
-                transfersService
-                        .getAllTransfers(clientId)
+                transferPage.getContent()
                         .stream()
-                        .map(ENTITY_TO_DTO).collect(Collectors.toList())
+                        .map(ENTITY_TO_DTO)
+                        .collect(Collectors.toList()),
+                transferPage.getTotalPages(),
+                transferPage.getTotalElements()
         );
     }
 

@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
                 new ValidationErrorDto(
                         e.getCode(),
                         e.getMessage(),
-                        e.getErrors().stream().map(ve -> new ValidationFieldErrorDto(ve.getField(), ve.getMessage())).collect(Collectors.toUnmodifiableList())
+                        e.getErrors().stream().map(ve -> new ValidationFieldErrorDto(ve.getField(), ve.getMessage())).toList()
                 ),
                 HttpStatus.UNPROCESSABLE_ENTITY
         );

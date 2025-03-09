@@ -1,0 +1,75 @@
+services:
+  elasticsearch:
+    # Просто через docker pull elasticsearch:8.7.1
+    # image: docker.elastic.co/elasticsearch/elasticsearch:8.7.1
+    image: elasticsearch:8.7.1
+    container_name: elasticsearch_springboot
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9200/_cluster/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    environment:
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "discovery.type=single-node"
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    networks:
+      - elk-net
+
+  kibana:
+    # image: docker.elastic.co/kibana/kibana:8.7.1
+    image: kibana:8.7.1
+    container_name: kibana_springboot
+    restart: unless-stopped
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:5601/api/status" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    ports:
+      - "5601:5601"
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      ELASTICSEARCH_HOSTS: '["http://elasticsearch:9200"]'
+    networks:
+      - elk-net
+
+  logstash:
+    # image: docker.elastic.co/logstash/logstash:8.7.1
+    image: logstash:8.7.1
+    container_name: logstash_springboot
+    restart: unless-stopped
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+      kibana:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9600/_node/stats" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+    ports:
+      - "5044:5044"
+      - "5001:5000/tcp"
+      - "5001:5000/udp"
+      - "9600:9600"
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks:
+      - elk-net
+
+volumes:
+  elasticsearch_data:
+    driver: local

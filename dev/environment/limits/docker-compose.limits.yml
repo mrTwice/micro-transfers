@@ -1,0 +1,21 @@
+services:
+  limits:
+    build:
+      context: ../../../
+      dockerfile: limits/Dockerfile
+      args:
+        - NO_CACHE=true
+    image: mt-limits:latest
+    container_name: mt-limits
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "9591:9591"
+    networks:
+      - db-net
+      - elk-net
+      - monitoring-net
+      - kafka-net
+    depends_on:
+      core-transfers-postgres:
+        condition: service_healthy

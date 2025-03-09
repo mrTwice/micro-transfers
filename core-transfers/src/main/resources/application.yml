@@ -21,21 +21,25 @@ spring:
       value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
 #      key-serializer: org.apache.kafka.common.serialization.StringSerializer
 #      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-      interceptor.classes: io.confluent.monitoring.clients.interceptor.MonitoringProducerInterceptor
+#      interceptor.classes: io.confluent.monitoring.clients.interceptor.MonitoringProducerInterceptor
 topics:
   status-info: mt.transfers.status.info
 transfers:
   max-transfer-sum: 100.00
-  demo-transfers-enabled: false
+#  demo-transfers-enabled: false
   blocked-account-numbers:
     - "123"
     - "234"
     - "456"
 integrations:
-  limits:
-    url: http://localhost:9080/api/v1/limits
-    read-timeout: 30s
-    write-timeout: 2s
+  services:
+    limits:
+      url: http://localhost:9591/api/v1/limits/
+      read-timeout: 30s
+      connect-timeout: 40s
 logging:
   level:
     org.zalando.logbook.Logbook: TRACE
+logstash:
+  destination:
+    host: localhost:5000

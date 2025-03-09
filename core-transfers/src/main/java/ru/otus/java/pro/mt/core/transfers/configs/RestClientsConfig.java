@@ -1,30 +1,24 @@
 package ru.otus.java.pro.mt.core.transfers.configs;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestClient;
-import org.springframework.web.client.RestTemplate;
 import ru.otus.java.pro.mt.core.transfers.configs.properties.LimitsIntegrationProperties;
 
 @Configuration
+@RequiredArgsConstructor
 public class RestClientsConfig {
-    // @Bean
-    public RestTemplate commonRestTemplate() {
-        return new RestTemplate();
-    }
+
+    private final RestClientFactory restClientFactory;
+    private final LimitsIntegrationProperties limitsIntegrationProperties;
 
     @Bean
-    @ConditionalOnMissingBean(RestTemplate.class)
-    public RestClient limitsClient(LimitsIntegrationProperties properties) {
-        return RestClient.builder()
-                .requestFactory(new HttpComponentsClientHttpRequestFactory())
-                .baseUrl(properties.getUrl())
-//                .defaultUriVariables(Map.of("variable", "foo"))
-//                .defaultHeader("My-Header", "Foo")
-//                .requestInterceptor(myCustomInterceptor)
-//                .requestInitializer(myCustomInitializer)
-                .build();
+    public RestClient limitsClient() {
+        return restClientFactory.createRestClient(
+                limitsIntegrationProperties.getUrl(),
+                limitsIntegrationProperties.getReadTimeout(),
+                limitsIntegrationProperties.getConnectTimeout()
+        );
     }
 }

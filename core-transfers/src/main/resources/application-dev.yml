@@ -13,12 +13,10 @@ spring:
     show-sql: true
     open-in-view: false
 management:
+  endpoint:
+    health:
+      show-details: always
   endpoints:
     web:
       exposure:
         include: '*'
-integrations:
-  limits:
-    url: http://localhost:9591/api/v1/limits
-    read-timeout: 30s
-    write-timeout: 2s
