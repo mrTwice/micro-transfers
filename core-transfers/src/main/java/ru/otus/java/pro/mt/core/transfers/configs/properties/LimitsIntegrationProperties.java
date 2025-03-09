@@ -1,16 +1,15 @@
 package ru.otus.java.pro.mt.core.transfers.configs.properties;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.time.Duration;
 
-@NoArgsConstructor
+@ConfigurationProperties(prefix = "integrations.services.limits")
 @Data
-@ConfigurationProperties("integrations.limits")
+@NoArgsConstructor
 public class LimitsIntegrationProperties {
-    private String url;
-    private Duration readTimeout;
-    private Duration writeTimeout;
+        private String url;
+        private Duration readTimeout;
+        private Duration connectTimeout;
 }

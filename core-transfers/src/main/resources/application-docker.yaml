@@ -1,9 +1,9 @@
 server:
-  port: 9590
+  port: 8080
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5450/mt_core_transfers?minimumIdle=2
+    url: jdbc:postgresql://core-transfers-postgres:5432/mt_core_transfers?minimumIdle=2
     username: mt_core_transfers_admin
     password: mt_core_transfers_admin
     hikari:
@@ -20,3 +20,8 @@ management:
     web:
       exposure:
         include: '*'
+integrations:
+  limits:
+    url: http://localhost:8182/api/v1/limits
+    read-timeout: 30s
+    write-timeout: 2s
